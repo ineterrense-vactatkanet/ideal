@@ -1,1 +1,21 @@
+node_modules/
+*.log
 
+_pycache_/
+*.pyc
+*.pyo
+*.pyd
+target/
+*.class
+# Dossiers générés par IDEs
+.idea/
+.vscode/
+
+# Fichiers de configuration locaux
+*.local
+*.log
+
+# Fichiers sensibles
+config.ini
+secrets.txt
+ads.txt
