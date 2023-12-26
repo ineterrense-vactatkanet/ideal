@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAM Store</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <header>
+    <div>
+        <img id="logo" src="logo/B56B5DF0-959E-4775-A386-E8005DAE60C2.jpeg" alt="Logo">
+        <h1>RAM Store</h1>
+    </div>
+    <div>
+        <div id="cart-logo-container">
+            <img id="cart-logo" src="logo/E6B6166B-8F33-4184-B517-B578CC6C3020.jpeg" alt="Panier" onclick="showCart()">
+            <p style="display: inline-block; vertical-align: top;">Panier</p>
+        </div>
+    </div>
+</header>
+
+
+    <section>
+        <div class="product" onclick="addToCart('Product 1', 20)">
+            <img src="images/5B69C967-1022-4E66-A9EC-EF51E137A184.jpeg" alt="Product 1">
+            <div>
+                <h2>iPhone 13 mini</h2>
+                <p>iPhone: $80</p>
+                <button onclick="addToCart('Product 1', 20)">Ajouter au panier</button>
+            </div>
+        </div>
+
+        <div class="product" onclick="addToCart('Product 2', 30)">
+            <img src="images/99413208-CDF6-42ED-B081-86F79A5588CC.jpeg" alt="Product 2">
+            <div>
+                <h2>iPhone 14</h2>
+                <p>Price: $120</p>
+                <button onclick="addToCart('Product 2', 30)">Ajouter au panier</button>
+            </div>
+        </div>
+    </section>
+
+    <div id="cart" class="cart" style="display: none;">
+        <h2>Panier</h2>
+        <div id="cart-items" class="cart-items"></div>
+        <div class="total">Total: $<span id="cart-total">0</span></div>
+        <button onclick="proceedToPayment()">Payer avec PayPal</button>
+    </div>
+
+    <div id="cart-page">
+        <div id="cart-content">
+            <h2>Contenu du Panier</h2>
+            <div id="cart-items-page" class="cart-items"></div>
+            <div class="total">Total: $<span id="cart-total-page">0</span></div>
+            <!-- Intégration de l'API PayPal -->
+            <div id="paypal-button-container"></div>
+        </div>
+    </div>
+
+
+
+    <script src="https://www.paypal.com/sdk/js?client-id=ZKUT7SY5QACU2&currency=USD"></script>
+
+
+
+
+<footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Contactez-nous</h3>
+                <p>Email : contact@ram-boutique.com</p>
+                <p>Téléphone : +1 421 567 730</p>
+            </div>
+            <div class="footer-section">
+                <h3>Liens Utiles</h3>
+                <ul>
+                    <li><a href="#">Accueil</a></li>
+                    <li><a href="#">Produits</a></li>
+                    <li><a href="#">Promotions</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Informations Légales</h3>
+                <ul>
+                    <li><a href="#">Conditions d'utilisation</a></li>
+                    <li><a href="#">Politique de confidentialité</a></li>
+                    <li><a href="#">Livraison et retours</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 RAM Store. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+
+
+    <form action="https://www.paypal.com/donate" method="post" target="_top">
+        <input type="hidden" name="hosted_button_id" value="ZKUT7SY5QACU2">
+        <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Faites un don avec PayPal">
+        <img alt="" border="0" src="https://www.paypal.com/en_FR/i/scr/pixel.gif" width="1" height="1">
+    </form>
+
+    <script src="js/script.js"></script>
+
+</body>
+</html>
