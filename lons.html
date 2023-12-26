@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAM Store</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 1em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        #logo {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        section {
+            margin: 20px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        .product {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+            margin-bottom: 10px;
+        }
+
+        .product img {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            margin-right: 10px;
+        }
+
+        .cart {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+
+        .total {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        #cart-logo {
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+        }
+
+        #cart-page {
+            display: none;
+        }
+
+        #cart-content {
+            margin-top: 20px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+ <header>
+    <div>
+        <img id="logo" src="logo/B56B5DF0-959E-4775-A386-E8005DAE60C2.jpeg" alt="Logo">
+        <h1>RAM Store</h1>
+    </div>
+    <div>
+        <div id="cart-logo-container">
+            <img id="cart-logo" src="logo/E6B6166B-8F33-4184-B517-B578CC6C3020.jpeg" alt="Panier" onclick="showCart()">
+            <p style="display: inline-block; vertical-align: top;">Panier</p>
+        </div>
+    </div>
+</header>
+
+
+
+    <section>
+        <div class="product" onclick="addToCart('Product 1', 3)">
+            <img src="images/5B69C967-1022-4E66-A9EC-EF51E137A184.jpeg" alt="Product 1">
+            <div>
+                <h2>iPhone 13 mini</h2>
+                <p>Price: $110</p>
+                <button onclick="addToCart('Product 1', 110)">Ajouter au panier</button>
+            </div>
+        </div>
+
+        <div class="product" onclick="addToCart('Product 2', 60)">
+            <img src="images/43B8957C-13A5-4299-B8FE-23992D3A55CB.jpeg" alt="Product 2">
+            <div>
+                <h2>iPhone 6s</h2>
+                <p>Price: $60</p>
+                <button onclick="addToCart('Product 2', 30)">Ajouter au panier</button>
+            </div>
+        </div>
+    </section>
+
+    <div id="cart" class="cart" style="display: none;">
+        <h2>Panier</h2>
+        <div id="cart-items" class="cart-items"></div>
+        <div class="total">Total: $<span id="cart-total">0</span></div>
+        <button onclick="proceedToPayment()">Payer avec PayPal</button>
+    </div>
+
+    <div id="cart-page">
+        <div id="cart-content">
+            <h2>Contenu du Panier</h2>
+            <div id="cart-items-page" class="cart-items"></div>
+            <div class="total">Total: $<span id="cart-total-page">0</span></div>
+            <!-- Intégration de l'API PayPal -->
+            <div id="paypal-button-container"></div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Contactez-nous</h3>
+                <p>Email : contact@ram-boutique.com</p>
+                <p>Téléphone : +1 421 567 730</p>
+            </div>
+            <div class="footer-section">
+                <h3>Liens Utiles</h3>
+                <ul>
+                    <li><a href="#">Accueil</a></li>
+                    <li><a href="#">Produits</a></li>
+                    <li><a href="#">Promotions</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Informations Légales</h3>
+                <ul>
+                    <li><a href="#">Conditions d'utilisation</a></li>
+                    <li><a href="#">Politique de confidentialité</a></li>
+                    <li><a href="#">Livraison et retours</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 RAM Store. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script>
+        let cart = [];
+
+        function addToCart(productName, price) {
+            cart.push({ name: productName, price: price });
+            displayCartItems();
+        }
+
+        function displayCartItems() {
+            const cartItemsElement = document.getElementById('cart-items');
+            const cartTotalElement = document.getElementById('cart-total');
+            const cartItemsPageElement = document.getElementById('cart-items-page');
+            const cartTotalPageElement = document.getElementById('cart-total-page');
+
+            cartItemsElement.innerHTML = '';
+            cartItemsPageElement.innerHTML = '';
+            let total = 0;
+
+            cart.forEach(item => {
+                const cartItemElement = document.createElement('div');
+                cartItemElement.classList.add('cart-item');
+                cartItemElement.innerHTML = `<div>${item.name}</div><div>$${item.price}</div>`;
+                cartItemsElement.appendChild(cartItemElement);
+
+                const cartItemPageElement = document.createElement('div');
+                cartItemPageElement.classList.add('cart-item');
+                cartItemPageElement.innerHTML = `<div>${item.name}</div><div>$${item.price}</div>`;
+                cartItemsPageElement.appendChild(cartItemPageElement);
+
+                total += item.price;
+            });
+
+            cartTotalElement.textContent = total;
+            cartTotalPageElement.textContent = total;
+        }
+
+        function showCart() {
+            const cartElement = document.getElementById('cart');
+            const cartPageElement = document.getElementById('cart-page');
+
+            if (cartElement.style.display === 'none' || cartElement.style.display === '') {
+                cartElement.style.display = 'block';
+                cartPageElement.style.display = 'none';
+            } else {
+                cartElement.style.display = 'none';
+                cartPageElement.style.display = 'block';
+            }
+        }
+
+        function proceedToPayment() {
+            const cartPageElement = document.getElementById('cart-page');
+            const cartElement = document.getElementById('cart');
+
+            cartPageElement.style.display = 'block';
+            cartElement.style.display = 'none';
+
+            // Ajoutez ici la logique pour traiter le paiement via PayPal
+        }
+
+        // Intégration de l'API PayPal
+        paypal.Buttons({
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: cart.reduce((acc, item) => acc + item.price, 0)
+                        }
+                    }]
+                });
+            },
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    alert('Transaction réussie. ID de commande : ' + details.id);
+                    cart = []; // Réinitialise le panier après la transaction réussie
+                    displayCartItems(); // Met à jour l'affichage du panier
+                });
+            }
+        }).render('#paypal-button-container');
+    </script>
+
+</body>
+</html>
